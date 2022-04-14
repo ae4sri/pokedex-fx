@@ -547,7 +547,6 @@ public class MainController {
         if (rowToRemove == null) {
             return;
         }
-        System.out.println(battlePokemon.size());
         battlePokemon.remove(getBRPWithName(rowToRemove));
         int selectedID = battlePokemonTableView.getSelectionModel().getSelectedIndex();
         battlePokemonTableView.getItems().remove(selectedID);
