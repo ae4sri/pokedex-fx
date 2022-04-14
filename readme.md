@@ -26,6 +26,6 @@ To run the .jar file, go to /out/artifacts/pokedex_jar in your command line. The
 
 `java --module-path "<path to javafx installation>" --add-modules javafx.controls,javafx.fxml -jar pokedex.jar`
 
-Note, <path to javafx installation> is the absolute path to the lib folder of your javafx installation.
+Note, `<path to javafx installation>` is the absolute path to the lib folder of your javafx installation.
 
 data.csv contains a bunch of default data to showcase the program, you can load it using the load file in the menu.
