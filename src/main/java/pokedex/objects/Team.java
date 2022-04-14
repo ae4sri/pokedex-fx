@@ -35,13 +35,9 @@ public class Team {
 
     /**
      * Initialize a Team object given a list of Pokemon.
-     * @param pokemonList List of Pokemon to put into the team.
      * @param name The team name for this particular team.
      */
-    public Team(ArrayList<BattleReadyPokemon> pokemonList, String name) {
-        for (int i = 0; i < min(pokemonList.size(),TEAM_LENGTH); i++) { // only get first 6 elements from team
-            team.add(pokemonList.get(i));
-        }
+    public Team(String name) {
         this.name = name;
         teamNamesSet.add(name);
     }
@@ -67,7 +63,7 @@ public class Team {
      * @param pokemon The pokemon object to add.
      */
     public void addPokemon(BattleReadyPokemon pokemon) {
-        if (team.size() < 6) {
+        if (team.size() < 6 && pokemon != null) {
             team.add(pokemon);
         }
     }
@@ -123,6 +119,15 @@ public class Team {
         return false;
     }
 
-
+    /**
+     * Returns whether the team has at least one Pokemon or not.
+     * @return A boolean; true if the team instance isn't empty, false otherwise.
+     */
+    public Boolean hasPokemon() {
+        if (team.size() > 0) {
+            return true;
+        }
+        return false;
+    }
 
 }
