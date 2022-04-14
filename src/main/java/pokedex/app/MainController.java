@@ -505,30 +505,29 @@ public class MainController {
         }
 
         // create team, add non-empty pokemon to the team
-        ArrayList<BattleReadyPokemon> team = new ArrayList<>();
+        Team team = new Team(newTeamName);
 
         if (!firstPokemon.equals("")) {
-            team.add(getBRPWithExactName(firstPokemon));
+            team.addPokemon(getBRPWithExactName(firstPokemon));
         }
         if (!secondPokemon.equals("")) {
-            team.add(getBRPWithExactName(secondPokemon));
+            team.addPokemon(getBRPWithExactName(secondPokemon));
         }
         if (!thirdPokemon.equals("")) {
-            team.add(getBRPWithExactName(thirdPokemon));
+            team.addPokemon(getBRPWithExactName(thirdPokemon));
         }
         if (!fourthPokemon.equals("")) {
-            team.add(getBRPWithExactName(fourthPokemon));
+            team.addPokemon(getBRPWithExactName(fourthPokemon));
         }
         if (!fifthPokemon.equals("")) {
-            team.add(getBRPWithExactName(fifthPokemon));
+            team.addPokemon(getBRPWithExactName(fifthPokemon));
         }
         if (!sixthPokemon.equals("")) {
-            team.add(getBRPWithExactName(sixthPokemon));
+            team.addPokemon(getBRPWithExactName(sixthPokemon));
         }
 
         // add team, update gui
-        Team newTeam = new Team(team, newTeamName);
-        teams.add(newTeam);
+        teams.add(team);
         populateTeamsTable();
 
         // clear the textfields in the gui
@@ -541,6 +540,56 @@ public class MainController {
         teamPokemon6.clear();
         status.setText("Successfully created team.");
     }
+
+    @FXML
+    void removeBattlePokemon(MouseEvent event) {
+        String rowToRemove = battlePokemonTableView.getSelectionModel().getSelectedItem();
+        if (rowToRemove == null) {
+            return;
+        }
+        System.out.println(battlePokemon.size());
+        battlePokemon.remove(getBRPWithName(rowToRemove));
+        int selectedID = battlePokemonTableView.getSelectionModel().getSelectedIndex();
+        battlePokemonTableView.getItems().remove(selectedID);
+        status.setText("Battle Pokemon successfully removed.");
+    }
+
+    @FXML
+    void removeMove(MouseEvent event) {
+        String rowToRemove = moveTableView.getSelectionModel().getSelectedItem();
+        if (rowToRemove == null) {
+            return;
+        }
+        moves.remove(getMoveWithName(rowToRemove));
+        int selectedID = moveTableView.getSelectionModel().getSelectedIndex();
+        moveTableView.getItems().remove(selectedID);
+        status.setText("Move successfully removed.");
+    }
+
+    @FXML
+    void removePokemon(MouseEvent event) {
+        String rowToRemove = pokemonTableView.getSelectionModel().getSelectedItem();
+        if (rowToRemove == null) {
+            return;
+        }
+        pokemon.remove(getPokemonWithName(rowToRemove));
+        int selectedID = pokemonTableView.getSelectionModel().getSelectedIndex();
+        pokemonTableView.getItems().remove(selectedID);
+        status.setText("Pokemon successfully removed.");
+    }
+
+    @FXML
+    void removeTeam(MouseEvent event) {
+        String rowToRemove = teamTableView.getSelectionModel().getSelectedItem();
+        if (rowToRemove == null) {
+            return;
+        }
+        teams.remove(getTeamWithName(rowToRemove));
+        int selectedID = teamTableView.getSelectionModel().getSelectedIndex();
+        teamTableView.getItems().remove(selectedID);
+        status.setText("Team successfully removed.");
+    }
+
 
     /**
      * Filter out battlePokemon table in GUI by the text input.
@@ -957,7 +1006,7 @@ public class MainController {
     private BattleReadyPokemon getBRPWithName(String name) {
         for (int i = 0; i < battlePokemon.size(); i++) {
             if (battlePokemon.get(i).nameAndNickName().equals(name)) {
-                return battlePokemon.get(i).clone();
+                return battlePokemon.get(i);
             }
         }
         return null;
@@ -971,7 +1020,7 @@ public class MainController {
     private BattleReadyPokemon getBRPWithExactName(String nickname) {
         for (int i=0; i < battlePokemon.size(); i++) {
             if (battlePokemon.get(i).nickname().equals(nickname)) {
-                return battlePokemon.get(i).clone();
+                return battlePokemon.get(i);
             }
         }
         return null;
