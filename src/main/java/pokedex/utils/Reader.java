@@ -67,6 +67,7 @@ public final class Reader {
      */
     public static ArrayList<Object> readData(File file) throws Exception {
         try {
+            data.clear();
             FileReader file_reader = new FileReader(file);
             BufferedReader buffered_reader = new BufferedReader(file_reader);
             String line = buffered_reader.readLine();
@@ -85,7 +86,7 @@ public final class Reader {
                     data.add(createMove(rowDetails));
                 } else { // otherwise it must be a team
                     Team team = createTeam(rowDetails);
-                    if (team != null) {
+                    if (team.hasPokemon()) {
                         data.add(team);
                     }
                 }
@@ -98,6 +99,7 @@ public final class Reader {
             if (e instanceof FileNotFoundException) {
                 throw new Exception("File doesn't exist!");
             } else {
+                System.out.println(e);
                 throw new Exception("Error reading from csv file!");
             }
         }
@@ -225,28 +227,45 @@ public final class Reader {
         String teamName = rowDetails[NAME_INDEX];
         ArrayList<BattleReadyPokemon> initialPokemon = new ArrayList<>();
 
+        Team newTeam = new Team(teamName);
+
         if (!rowDetails[POKE_1_INDEX].equals(".")) {
-            initialPokemon.add(getBRPfromScanned(rowDetails[POKE_1_INDEX]));
+            BattleReadyPokemon battlePoke = getBRPfromScanned(rowDetails[POKE_1_INDEX]);
+            if (battlePoke != null) {
+                newTeam.addPokemon(getBRPfromScanned(rowDetails[POKE_1_INDEX]));
+            }
         }
         if (!rowDetails[POKE_2_INDEX].equals(".")) {
-            initialPokemon.add(getBRPfromScanned(rowDetails[POKE_2_INDEX]));
+            BattleReadyPokemon battlePoke = getBRPfromScanned(rowDetails[POKE_2_INDEX]);
+            if (battlePoke != null) {
+                newTeam.addPokemon(getBRPfromScanned(rowDetails[POKE_2_INDEX]));
+            }
         }
         if (!rowDetails[POKE_3_INDEX].equals(".")) {
-            initialPokemon.add(getBRPfromScanned(rowDetails[POKE_3_INDEX]));
+            BattleReadyPokemon battlePoke = getBRPfromScanned(rowDetails[POKE_3_INDEX]);
+            if (battlePoke != null) {
+                newTeam.addPokemon(getBRPfromScanned(rowDetails[POKE_3_INDEX]));
+            }
         }
         if (!rowDetails[POKE_4_INDEX].equals(".")) {
-            initialPokemon.add(getBRPfromScanned(rowDetails[POKE_4_INDEX]));
+            BattleReadyPokemon battlePoke = getBRPfromScanned(rowDetails[POKE_4_INDEX]);
+            if (battlePoke != null) {
+                newTeam.addPokemon(getBRPfromScanned(rowDetails[POKE_4_INDEX]));
+            }
         }
         if (!rowDetails[POKE_5_INDEX].equals(".")) {
-            initialPokemon.add(getBRPfromScanned(rowDetails[POKE_5_INDEX]));
+            BattleReadyPokemon battlePoke = getBRPfromScanned(rowDetails[POKE_5_INDEX]);
+            if (battlePoke != null) {
+                newTeam.addPokemon(getBRPfromScanned(rowDetails[POKE_5_INDEX]));
+            }
         }
         if (!rowDetails[POKE_6_INDEX].equals(".")) {
-            initialPokemon.add(getBRPfromScanned(rowDetails[POKE_6_INDEX]));
+            BattleReadyPokemon battlePoke = getBRPfromScanned(rowDetails[POKE_1_INDEX]);
+            if (battlePoke != null) {
+                newTeam.addPokemon(getBRPfromScanned(rowDetails[POKE_6_INDEX]));
+            }
         }
-        if (initialPokemon.size() > 0) {
-            return new Team(initialPokemon, teamName);
-        }
-        return null;
+        return newTeam;
     }
 
 
@@ -257,7 +276,7 @@ public final class Reader {
      * @return A Battle
      */
     private static BattleReadyPokemon getBRPfromScanned(String name) {
-        for (int i = 0; i <= data.size(); i++) {
+        for (int i = 0; i < data.size(); i++) {
             if (data.get(i) instanceof BattleReadyPokemon) {
                 BattleReadyPokemon poke = (BattleReadyPokemon) data.get(i);
                 if (poke.nickname().equals(name)) {
