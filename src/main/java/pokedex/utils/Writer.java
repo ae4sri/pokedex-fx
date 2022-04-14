@@ -117,7 +117,7 @@ public final class Writer {
         row[IS_MOVE_INDEX] = "Y"; // indicate this row is a move
         row[NAME_INDEX] = name;
         row[DESCRIPTION_INDEX] = description;
-        row[TYPE_1_INDEX] = type;
+        row[TYPE_1_INDEX] = (type != null) ? type : ".";
 
         return String.join(",",row);
 
@@ -147,6 +147,9 @@ public final class Writer {
         // (avoids issue with splitting the string)
         row[TYPE_1_INDEX] = poke.firstType().getType();
         row[TYPE_2_INDEX] = poke.secondType().getType();
+        if (row[TYPE_2_INDEX].equals("")) {
+            row[TYPE_2_INDEX] = ".";
+        }
 
         return String.join(",", row);
     }
@@ -172,19 +175,22 @@ public final class Writer {
         row[DESCRIPTION_INDEX] = "\"\"\"" + poke.description() + "\"\"\""; // wrap in double quotes
         row[TYPE_1_INDEX] = poke.firstType().getType();
         row[TYPE_2_INDEX] = poke.secondType().getType();
+        if (row[TYPE_2_INDEX].equals("")) {
+            row[TYPE_2_INDEX] = ".";
+        }
         row[NICKNAME_INDEX] = poke.nickname();
 
         if (poke.getMove(1) != null) {
-            row[MOVE_1_INDEX] = poke.getMove(1).name();
+            row[MOVE_1_INDEX] = (poke.getMove(1).name() != null) ? poke.getMove(1).name() : ".";
         }
         if (poke.getMove(2) != null) {
-            row[MOVE_2_INDEX] = poke.getMove(2).name();
+            row[MOVE_2_INDEX] = (poke.getMove(2).name() != null) ? poke.getMove(2).name() : ".";
         }
         if (poke.getMove(3) != null) {
-            row[MOVE_3_INDEX] = poke.getMove(3).name();
+            row[MOVE_3_INDEX] = (poke.getMove(3).name() != null) ? poke.getMove(3).name() : ".";
         }
         if (poke.getMove(4) != null) {
-            row[MOVE_4_INDEX] = poke.getMove(4).name();
+            row[MOVE_4_INDEX] = (poke.getMove(4).name() != null) ? poke.getMove(4).name() : ".";
         }
         return String.join(",", row);
     }
@@ -200,22 +206,22 @@ public final class Writer {
         ArrayList<String> nicknames = team.getAllNicknames();
 
         if (nicknames.size() > 0) {
-            row[POKE_1_INDEX] = nicknames.get(0);
+            row[POKE_1_INDEX] = ((nicknames.get(0) != null)) ? nicknames.get(0) : ".";
         }
         if (nicknames.size() > 1) {
-            row[POKE_2_INDEX] = nicknames.get(1);
+            row[POKE_2_INDEX] = ((nicknames.get(1) != null)) ? nicknames.get(1) : ".";
         }
         if (nicknames.size() > 2) {
-            row[POKE_3_INDEX] = nicknames.get(2);
+            row[POKE_3_INDEX] = ((nicknames.get(2) != null)) ? nicknames.get(2) : ".";
         }
         if (nicknames.size() > 3) {
-            row[POKE_4_INDEX] = nicknames.get(3);
+            row[POKE_4_INDEX] = ((nicknames.get(3) != null)) ? nicknames.get(3) : ".";
         }
         if (nicknames.size() > 4) {
-            row[POKE_5_INDEX] = nicknames.get(4);
+            row[POKE_5_INDEX] = ((nicknames.get(4) != null)) ? nicknames.get(4) : ".";
         }
         if (nicknames.size() > 5) {
-            row[POKE_6_INDEX] = nicknames.get(5);
+            row[POKE_6_INDEX] = ((nicknames.get(5) != null)) ? nicknames.get(5) : ".";
         }
 
         row[NAME_INDEX] = team.name();
